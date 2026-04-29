@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Explore Minangkabau</title>
+
+  <!-- GOOGLE FONT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- ICON -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* ================= LOADER ================= */
+
+    #loader {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      background: #7b1113;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      flex-direction: column;
+    }
+
+    .loader-circle {
+      width: 70px;
+      height: 70px;
+      border: 8px solid white;
+      border-top: 8px solid #ffb703;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+      width: 100%;
+      height: 100vh;
+
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.6),
+          rgba(0, 0, 0, 0.6)),
+        url('https://upload.wikimedia.org/wikipedia/commons/f/f5/Lake_Maninjau.jpg');
+
+      background-size: cover;
+      background-position: center;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 75px;
+      margin-bottom: 20px;
+      animation: fadeDown 1.5s;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: auto;
+      line-height: 2;
+      margin-bottom: 30px;
+      animation: fadeUp 1.5s;
+    }
+
+    .hero button {
+      padding: 15px 35px;
+      border: none;
+      border-radius: 40px;
+      background: #ffb703;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .hero button:hover {
+      background: white;
+      transform: scale(1.07);
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ================= NAVBAR ================= */
+
+    nav {
+      background: #7b1113;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav button {
+      padding: 13px 25px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: #7b1113;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    nav button:hover {
+      background: #ffb703;
+      transform: translateY(-3px);
+    }
+
+    /* ================= SECTION ================= */
+
+    section {
+      display: none;
+      padding: 80px 8%;
+      animation: fade 1s ease;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .title h2 {
+      font-size: 50px;
+      color: #7b1113;
+      margin-bottom: 15px;
+    }
+
+    .title p {
+      color: #666;
+    }
+
+    /* ================= CARD ================= */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 35px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      transition: 0.5s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .card img,
+    .card iframe {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border: none;
+    }
+
+    .card-content {
+      padding: 25px;
+    }
+
+    .card-content h3 {
+      color: #7b1113;
+      margin-bottom: 15px;
+    }
+
+    .card-content p {
+      color: #555;
+      line-height: 1.8;
+    }
+
+    /* ================= FACT BOX ================= */
+
+    .fact-box {
+      background: linear-gradient(to right, #7b1113, #a4161a);
+      color: white;
+      padding: 50px;
+      margin: 60px 8%;
+      border-radius: 25px;
+      text-align: center;
+    }
+
+    .fact-box h2 {
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
+
+    .fact-box p {
+      line-height: 2;
+    }
+
+    /* ================= GALLERY ================= */
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+      transition: 0.5s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* ================= MUSIC BUTTON ================= */
+
+    .music-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #7b1113;
+      color: white;
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 999;
+      transition: 0.4s;
+    }
+
+    .music-btn:hover {
+      background: #ffb703;
+      color: black;
+      transform: scale(1.1);
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      background: #7b1113;
+      color: white;
+      text-align: center;
+      padding: 40px;
+      margin-top: 40px;
+    }
+
+    footer h3 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      color: #ddd;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width:768px) {
+
+      .hero h1 {
+        font-size: 45px;
+      }
+
+      .title h2 {
+        font-size: 35px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= LOADER ================= -->
+
+  <div id="loader">
+
+    <div class="loader-circle"></div>
+
+    <h2>Loading Minangkabau...</h2>
+
+  </div>
+
+  <!-- ================= HERO ================= -->
+
+  <header>
+
+    <div class="hero">
+
+      <h1>EXPLORE MINANGKABAU</h1>
+
+      <p>
+        Discover the beauty of Minangkabau culture, traditional foods,
+        tourism, music, traditional clothes, legends, and the rich heritage
+        of West Sumatra, Indonesia.
+      </p>
+
+      <button onclick="scrollToSection()">
+        Explore Now
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav>
+
+    <button onclick="showSection('history')">
+      History
+    </button>
+
+    <button onclick="showSection('culture')">
+      Culture
+    </button>
+
+    <button onclick="showSection('food')">
+      Foods
+    </button>
+
+    <button onclick="showSection('tourism')">
+      Tourism
+    </button>
+
+    <button onclick="showSection('clothes')">
+      Traditional Clothes
+    </button>
+
+    <button onclick="showSection('music')">
+      Music
+    </button>
+
+    <button onclick="showSection('legend')">
+      Legends
+    </button>
+
+    <button onclick="showSection('gallery')">
+      Gallery
+    </button>
+
+  </nav>
+
+  <!-- ================= HISTORY ================= -->
+
+  <section id="history" class="active">
+
+    <div class="title">
+
+      <h2>History of Minangkabau</h2>
+
+      <p>
+        Learn about the origin and uniqueness of Minangkabau society.
+      </p>
+
+    </div>
+
+    <div class="fact-box">
+
+      <h2>About Minangkabau</h2>
+
+      <p>
+        Minangkabau is an ethnic group from West Sumatra, Indonesia.
+        The Minangkabau people are famous for their matrilineal culture,
+        Rumah Gadang traditional houses, delicious culinary traditions,
+        and beautiful natural landscapes.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ================= CULTURE ================= -->
+
+  <section id="culture">
+
+    <div class="title">
+
+      <h2>Culture & Arts</h2>
+
+      <p>
+        Traditional arts and performances from Minangkabau.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Rumah_Gadang_Minangkabau.jpg">
+        <div class="card-content">
+          <h3>Rumah Gadang</h3>
+          <p>Traditional Minangkabau house with buffalo horn-shaped roof.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Tari_Piring.jpg">
+        <div class="card-content">
+          <h3>Tari Piring</h3>
+          <p>A traditional dance using plates during performances.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/9No-FiEInLA"></iframe>
+        <div class="card-content">
+          <h3>Culture Documentary</h3>
+          <p>Watch the beauty of Minangkabau traditions.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= FOOD ================= -->
+
+  <section id="food">
+
+    <div class="title">
+
+      <h2>Traditional Foods</h2>
+
+      <p>
+        Taste the authentic cuisine of Minangkabau.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Beef_Rendang.jpg">
+        <div class="card-content">
+          <h3>Rendang</h3>
+          <p>World-famous spicy meat dish from West Sumatra.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Sate_Padang.jpg">
+        <div class="card-content">
+          <h3>Sate Padang</h3>
+          <p>Delicious beef satay with thick spicy sauce.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/fL8w6Q8Nf5Q"></iframe>
+        <div class="card-content">
+          <h3>Culinary Video</h3>
+          <p>Explore traditional Minangkabau cooking.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= TOURISM ================= -->
+
+  <section id="tourism">
+
+    <div class="title">
+
+      <h2>Tourism & Nature</h2>
+
+      <p>
+        Beautiful tourism destinations in West Sumatra.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Lake_Maninjau.jpg">
+        <div class="card-content">
+          <h3>Lake Maninjau</h3>
+          <p>Beautiful volcanic lake surrounded by mountains.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Lembah_Harau.jpg">
+        <div class="card-content">
+          <h3>Harau Valley</h3>
+          <p>Famous valley with giant cliffs and waterfalls.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/G8m7dG4V5K8"></iframe>
+        <div class="card-content">
+          <h3>Travel Video</h3>
+          <p>Explore amazing tourism destinations.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= CLOTHES ================= -->
+
+  <section id="clothes">
+
+    <div class="title">
+
+      <h2>Traditional Clothes</h2>
+
+      <p>
+        Traditional Minangkabau fashion and ceremonial outfits.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Bundo_Kanduang.jpg">
+        <div class="card-content">
+          <h3>Bundo Kanduang</h3>
+          <p>Traditional women's clothing from Minangkabau.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Minangkabau_wedding.jpg">
+        <div class="card-content">
+          <h3>Wedding Costume</h3>
+          <p>Colorful and luxurious Minangkabau wedding clothes.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= MUSIC ================= -->
+
+  <section id="music">
+
+    <div class="title">
+
+      <h2>Traditional Music</h2>
+
+      <p>
+        Traditional musical instruments and Minangkabau songs.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/0G7Y1K6fP1A"></iframe>
+        <div class="card-content">
+          <h3>Talempong Music</h3>
+          <p>Traditional Minangkabau musical instrument performance.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/4Q6wQ2s7Q6I"></iframe>
+        <div class="card-content">
+          <h3>Traditional Song</h3>
+          <p>Enjoy beautiful Minangkabau traditional music.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= LEGEND ================= -->
+
+  <section id="legend">
+
+    <div class="title">
+
+      <h2>Legends & Folklore</h2>
+
+      <p>
+        Famous stories and legends from Minangkabau culture.
+      </p>
+
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Pantai_Air_Manis.jpg">
+        <div class="card-content">
+          <h3>Malin Kundang</h3>
+          <p>Legend about a disobedient son turned into stone.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/Nn7Y8H5fX6M"></iframe>
+        <div class="card-content">
+          <h3>Legend Video</h3>
+          <p>Watch the story of Malin Kundang from West Sumatra.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+
+  <section id="gallery">
+
+    <div class="title">
+
+      <h2>Photo Gallery</h2>
+
+      <p>
+        Beautiful photos from Minangkabau culture and tourism.
+      </p>
+
+    </div>
+
+    <div class="gallery">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Rumah_Gadang_Minangkabau.jpg">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Lake_Maninjau.jpg">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Lembah_Harau.jpg">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Beef_Rendang.jpg">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Minangkabau_wedding.jpg">
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Jam_Gadang_Bukittinggi.jpg">
+
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <h3>Wonderful Minangkabau</h3>
+
+    <p>
+      Culture • Culinary • Tourism • Tradition
+    </p>
+
+    <br>
+
+    <p>
+      © 2026 Explore Minangkabau | HTML • CSS • JavaScript
+    </p>
+
+  </footer>
+
+  <!-- ================= MUSIC BUTTON ================= -->
+
+  <button class="music-btn" onclick="playMusic()">
+    <i class="fa-solid fa-music"></i>
+  </button>
+
+  <!-- AUDIO -->
+  <audio id="bgMusic">
+    <source
+      src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      type="audio/mp3">
+  </audio>
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    // Loader
+    window.onload = function () {
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+      }, 2000);
+    }
+
+    // Show Section
+    function showSection(sectionId) {
+
+      let sections = document.querySelectorAll("section");
+
+      sections.forEach(section => {
+        section.classList.remove("active");
+      });
+
+      document.getElementById(sectionId).classList.add("active");
+
+      window.scrollTo({
+        top: 700,
+        behavior: "smooth"
+      });
+
+    }
+
+    // Scroll Hero
+    function scrollToSection() {
+
+      window.scrollTo({
+        top: 700,
+        behavior: "smooth"
+      });
+
+    }
+
+    // Music
+    function playMusic() {
+
+      let music = document.getElementById("bgMusic");
+
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>
